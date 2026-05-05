@@ -5,6 +5,7 @@ declare global {
     ReactNativeWebView?: { postMessage(msg: string): void };
     webkit?: { messageHandlers?: { retailcode?: { postMessage(msg: unknown): void } } };
     Android?: { close?(): void };
+    RetailcodeFlutter?: { postMessage(msg: string): void }; // Flutter JavascriptChannel
   }
 }
 
@@ -28,13 +29,16 @@ export function closeWebview(
   onClose?.({ closed: true });
 
   if (window.ReactNativeWebView) {
-    // Widget is running inside a React Native WebView — tell the host to close
+    // React Native WebView
     window.ReactNativeWebView.postMessage(JSON.stringify({ action: 'close' }));
+  } else if (window.RetailcodeFlutter) {
+    // Flutter WebView (JavascriptChannel named RetailcodeFlutter)
+    window.RetailcodeFlutter.postMessage(JSON.stringify({ action: 'close' }));
   } else if (window.webkit?.messageHandlers?.retailcode) {
-    // Widget is running inside a WKWebView on iOS
+    // iOS WKWebView — handler registered as 'retailcode'
     window.webkit.messageHandlers.retailcode.postMessage({ action: 'close' });
   } else if (window.Android?.close) {
-    // Widget is running inside an Android WebView
+    // Android WebView
     window.Android.close();
   }
   // Pure-browser embedded use: unmount() already removed the widget;
