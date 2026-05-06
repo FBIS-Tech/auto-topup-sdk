@@ -64,7 +64,7 @@ public struct TopupView: UIViewRepresentable {
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.isOpaque = false
         webView.backgroundColor = .clear
-        webView.scrollView.isScrollEnabled = false
+        webView.scrollView.isScrollEnabled = true
 
         let html = buildWidgetHTML(
             publicKey: publicKey,
@@ -99,8 +99,12 @@ public struct TopupView: UIViewRepresentable {
             else { return }
 
             DispatchQueue.main.async {
-                if action == "success" { self.onSuccess?() }
-                if action == "close"   { self.onClose?()   }
+                if action == "close" {
+                    // success flag tells us the subscription completed before closing
+                    let isSuccess = body["success"] as? Bool == true
+                    if isSuccess { self.onSuccess?() }
+                    self.onClose?()
+                }
             }
         }
     }

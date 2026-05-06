@@ -15,11 +15,19 @@ func buildWidgetHTML(
     <html>
     <head>
       <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background: transparent; }
-        #widget { position: fixed; inset: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+          background: transparent;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+        #widget {
+          min-height: 100vh;
+          min-height: 100dvh;
+        }
       </style>
     </head>
     <body>
@@ -32,12 +40,8 @@ func buildWidgetHTML(
           baseUrl:   \(js(baseUrl)),
           container: '#widget',
           theme:     { accent: \(js(accent)) },
-          onSuccess: function() {
-            window.webkit.messageHandlers.retailcode.postMessage({ action: 'success' });
-          },
-          onClose: function() {
-            window.webkit.messageHandlers.retailcode.postMessage({ action: 'close' });
-          },
+          onSuccess: function() { /* success flag is carried inside the close message */ },
+          onClose:   function() { /* handled via webkit.messageHandlers in closeWebview */ },
         }).mount();
       </script>
     </body>

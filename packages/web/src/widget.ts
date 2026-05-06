@@ -278,7 +278,7 @@ export class TopupWidget {
         updateUrlStatus('successful');
         this.opts.onSuccess?.({ success: true });
         await swal({ icon: 'success', title: 'Subscription Active!', text: 'Your auto top-up is now enabled.', confirmButtonColor: accent });
-        closeWebview(onClose, unmount);
+        closeWebview(onClose, unmount, true); // true = success close
       } catch (err) {
         updateUrlStatus('failed');
         swal({ icon: 'error', title: 'Oops!', text: (err as Error).message, confirmButtonColor: accent });

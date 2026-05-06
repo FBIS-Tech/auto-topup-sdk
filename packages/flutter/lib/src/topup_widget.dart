@@ -5,30 +5,18 @@ import 'html_template.dart';
 
 /// Auto Topup subscription widget for Flutter.
 ///
-/// Usage — modal overlay (recommended):
+/// Usage — bottom sheet (recommended):
 /// ```dart
 /// showModalBottomSheet(
 ///   context: context,
 ///   isScrollControlled: true,
+///   useSafeArea: true,
 ///   builder: (_) => TopupWidget(
 ///     publicKey: 'pk_live_xxxx',
 ///     msisdn: '08012345678',
-///     baseUrl: 'https://corporatedevapi.retailcode.com.ng',
 ///     onClose: () => Navigator.pop(context),
 ///   ),
 /// );
-/// ```
-///
-/// Usage — dedicated screen:
-/// ```dart
-/// Navigator.push(context, MaterialPageRoute(
-///   builder: (_) => TopupWidget(
-///     publicKey: 'pk_live_xxxx',
-///     msisdn: '08012345678',
-///     baseUrl: 'https://corporatedevapi.retailcode.com.ng',
-///     onClose: () => Navigator.pop(context),
-///   ),
-/// ));
 /// ```
 class TopupWidget extends StatefulWidget {
   const TopupWidget({
@@ -44,10 +32,7 @@ class TopupWidget extends StatefulWidget {
   final String publicKey;
   final String msisdn;
   final String baseUrl;
-
-  /// Primary accent colour (hex string, e.g. '#0057FF').
   final String accent;
-
   final VoidCallback? onSuccess;
   final VoidCallback? onClose;
 
@@ -66,8 +51,10 @@ class _TopupWidgetState extends State<TopupWidget> {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.transparent)
+      // Allow the WebView content to scroll — required for keyboard handling
+      ..enableZoom(false)
       ..addJavaScriptChannel(
-        'RetailcodeFlutter',  // must match window.RetailcodeFlutter in the SDK
+        'RetailcodeFlutter',
         onMessageReceived: _onMessage,
       )
       ..setNavigationDelegate(NavigationDelegate(
@@ -87,18 +74,35 @@ class _TopupWidgetState extends State<TopupWidget> {
   void _onMessage(JavaScriptMessage message) {
     final data = json.decode(message.message) as Map<String, dynamic>;
     final action = data['action'] as String?;
-    if (action == 'success') widget.onSuccess?.call();
-    if (action == 'close')   widget.onClose?.call();
+
+    if (action == 'close') {
+      // success flag tells us the subscription completed before closing
+      final isSuccess = data['success'] == true;
+      if (isSuccess) widget.onSuccess?.call();
+      widget.onClose?.call();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        WebViewWidget(controller: _controller),
-        if (_loading)
-          const Center(child: CircularProgressIndicator()),
-      ],
+    // Wrap in AnimatedPadding so the WebView shrinks up when the keyboard
+    // appears — this keeps the focused input visible above the keyboard.
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.easeOut,
+      padding: EdgeInsets.only(bottom: bottomInset),
+      child: Stack(
+        children: [
+          WebViewWidget(
+            controller: _controller,
+            // Allow the page to scroll when the keyboard is open
+          ),
+          if (_loading)
+            const Center(child: CircularProgressIndicator()),
+        ],
+      ),
     );
   }
 }

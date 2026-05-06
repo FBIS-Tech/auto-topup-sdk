@@ -18,29 +18,26 @@ export function updateUrlStatus(status: 'successful' | 'failed'): void {
 export function closeWebview(
   onClose?: (r: { closed: true }) => void,
   unmount?: () => void,
+  success = false,
 ): void {
   const url = new URL(window.location.href);
   url.searchParams.set('isClose', 'true');
   window.history.replaceState({}, '', url);
 
-  // Always remove the widget from the DOM first
   unmount?.();
-
   onClose?.({ closed: true });
 
+  // Include success flag so native apps know whether to fire onSuccess
+  // before dismissing — this way the dialog is always fully visible first.
+  const msg = JSON.stringify({ action: 'close', success });
+
   if (window.ReactNativeWebView) {
-    // React Native WebView
-    window.ReactNativeWebView.postMessage(JSON.stringify({ action: 'close' }));
+    window.ReactNativeWebView.postMessage(msg);
   } else if (window.RetailcodeFlutter) {
-    // Flutter WebView (JavascriptChannel named RetailcodeFlutter)
-    window.RetailcodeFlutter.postMessage(JSON.stringify({ action: 'close' }));
+    window.RetailcodeFlutter.postMessage(msg);
   } else if (window.webkit?.messageHandlers?.retailcode) {
-    // iOS WKWebView — handler registered as 'retailcode'
-    window.webkit.messageHandlers.retailcode.postMessage({ action: 'close' });
+    window.webkit.messageHandlers.retailcode.postMessage({ action: 'close', success });
   } else if (window.Android?.close) {
-    // Android WebView
     window.Android.close();
   }
-  // Pure-browser embedded use: unmount() already removed the widget;
-  // navigation is the consumer's responsibility via onClose.
 }

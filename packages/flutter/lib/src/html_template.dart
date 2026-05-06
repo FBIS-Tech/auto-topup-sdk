@@ -12,11 +12,24 @@ String buildWidgetHtml({
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: transparent; }
-    #widget { position: fixed; inset: 0; }
+    html, body { height: 100%; }
+
+    /* Scrollable body so the keyboard doesn't cover inputs */
+    body {
+      background: transparent;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Widget fills the screen but can grow taller than the viewport,
+       which lets the browser scroll to show inputs above the keyboard */
+    #widget {
+      min-height: 100vh;
+      min-height: 100dvh; /* dynamic viewport — shrinks when keyboard opens */
+    }
   </style>
 </head>
 <body>
@@ -30,12 +43,8 @@ String buildWidgetHtml({
       baseUrl:   ${_jsStr(baseUrl)},
       container: '#widget',
       theme:     { accent: ${_jsStr(accent)} },
-      onSuccess: function() {
-        RetailcodeFlutter.postMessage(JSON.stringify({ action: 'success' }));
-      },
-      onClose: function() {
-        RetailcodeFlutter.postMessage(JSON.stringify({ action: 'close' }));
-      },
+      onSuccess: function() { /* handled by onClose with success:true flag */ },
+      onClose:   function() { /* handled by onClose with success:true flag */ },
     }).mount();
   </script>
 </body>
