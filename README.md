@@ -16,7 +16,7 @@ Auto Topup subscription widget for web, React Native, Flutter, and iOS.
 
 ### 1. Create an npm organisation
 
-Go to [npmjs.com](https://www.npmjs.com) and log in. You already have the **`tolucode`** organisation — packages will publish under the `@auto-topup/` scope automatically.
+Go to [npmjs.com](https://www.npmjs.com) and log in. You already have the **`retailcode`** account — packages will publish under the `@auto-topup/` scope automatically.
 
 ### 2. Log in from your terminal
 
@@ -164,7 +164,6 @@ export default function HomeScreen() {
           modal
           publicKey="pk_live_xxxx"
           msisdn="08012345678"
-          baseUrl="https://api.yourserver.com"
           theme={{ accent: '#0057FF' }}
           onSuccess={() => setOpen(false)}
           onClose={()  => setOpen(false)}
@@ -196,7 +195,6 @@ export function TopupScreen({ navigation }: NativeStackScreenProps<any>) {
     <TopupWidget
       publicKey="pk_live_xxxx"
       msisdn="08012345678"
-      baseUrl="https://api.yourserver.com"
       theme={{ accent: '#0057FF' }}
       onSuccess={() => navigation.goBack()}
       onClose={()  => navigation.goBack()}
@@ -277,7 +275,6 @@ ElevatedButton(
     builder: (_) => TopupWidget(
       publicKey: 'pk_live_xxxx',
       msisdn:    '08012345678',
-      baseUrl:   'https://corporatedevapi.retailcode.com.ng',
       accent:    '#0057FF',
       onSuccess: () => Navigator.pop(context),
       onClose:   () => Navigator.pop(context),
@@ -295,7 +292,6 @@ Navigator.push(context, MaterialPageRoute(
     body: TopupWidget(
       publicKey: 'pk_live_xxxx',
       msisdn:    '08012345678',
-      baseUrl:   'https://corporatedevapi.retailcode.com.ng',
       onSuccess: () => Navigator.pop(context),
       onClose:   () => Navigator.pop(context),
     ),
@@ -333,7 +329,6 @@ struct ContentView: View {
                 TopupView(
                     publicKey: "pk_live_xxxx",
                     msisdn:    "08012345678",
-                    baseUrl:   "https://corporatedevapi.retailcode.com.ng",
                     accent:    "#0057FF",
                     onSuccess: { showTopup = false },
                     onClose:   { showTopup = false }
@@ -350,7 +345,6 @@ NavigationLink("Top Up") {
     TopupView(
         publicKey: "pk_live_xxxx",
         msisdn:    "08012345678",
-        baseUrl:   "https://corporatedevapi.retailcode.com.ng",
         onClose:   { /* navigation back is automatic */ }
     )
     .ignoresSafeArea()
