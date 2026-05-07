@@ -19,7 +19,7 @@ import {
   resolveAccent,
   isValidMsisdn,
   isValidAmount,
-} from '@tolucode/core';
+} from '@auto-topup/core';
 import { useTopupConfig } from './hooks/useTopupConfig.js';
 import { Header } from './components/Header.js';
 import { FormField } from './components/FormField.js';

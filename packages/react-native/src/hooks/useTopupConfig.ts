@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RetailcodeApiClient, RetailcodeApiError, TopupApiConfig } from '@tolucode/core';
+import { RetailcodeApiClient, RetailcodeApiError, TopupApiConfig } from '@auto-topup/core';
 
 type State =
   | { status: 'loading' }

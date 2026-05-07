@@ -26,7 +26,7 @@ importers:
 
   packages/react-native:
     dependencies:
-      '@tolucode/core':
+      '@auto-topup/core':
         specifier: workspace:*
         version: link:../core
       react:
@@ -51,7 +51,7 @@ importers:
 
   packages/web:
     dependencies:
-      '@tolucode/core':
+      '@auto-topup/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

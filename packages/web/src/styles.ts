@@ -1,4 +1,4 @@
-import { mix, rgba } from '@tolucode/core';
+import { mix, rgba } from '@auto-topup/core';
 
 export interface StyleTokens {
   accent: string;

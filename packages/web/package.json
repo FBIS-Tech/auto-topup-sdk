@@ -1,5 +1,5 @@
 {
-  "name": "@tolucode/web",
+  "name": "@auto-topup/web",
   "version": "0.2.3",
   "description": "Retailcode SDK — browser widget (Shadow DOM)",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tolucode/core": "workspace:*"
+    "@auto-topup/core": "workspace:*"
   },
   "devDependencies": {
     "tsup": "*",

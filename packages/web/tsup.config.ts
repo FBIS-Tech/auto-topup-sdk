@@ -17,6 +17,6 @@ export default defineConfig([
     minify: true,
     sourcemap: false,
     outDir: 'dist',
-    noExternal: ['@tolucode/core'],
+    noExternal: ['@auto-topup/core'],
   },
 ]);
