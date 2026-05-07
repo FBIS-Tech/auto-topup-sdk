@@ -254,7 +254,7 @@ The web SDK detects `window.ReactNativeWebView` automatically and posts `{ actio
 dependencies:
   tolucode_topup:
     git:
-      url: https://github.com/Eyiowuawi/retailcode-sdk.git
+      url: https://github.com/FBIS-Tech/auto-topup-sdk.git
       path: packages/flutter
 ```
 
@@ -314,7 +314,7 @@ The widget loads the web SDK inside a `WebView` and listens for close/success ev
 In Xcode → **File → Add Package Dependencies** → paste this URL:
 
 ```
-https://github.com/Eyiowuawi/retailcode-sdk
+https://github.com/FBIS-Tech/auto-topup-sdk
 ```
 
 Select the **TolucodeTopup** product and add it to your target.
@@ -379,7 +379,7 @@ theme: { accent: '#7C3AED' }  // purple brand colour
 ## Local development
 
 ```bash
-git clone https://github.com/Eyiowuawi/retailcode-sdk.git
+git clone https://github.com/FBIS-Tech/auto-topup-sdk.git
 cd retailcode-sdk
 
 pnpm install

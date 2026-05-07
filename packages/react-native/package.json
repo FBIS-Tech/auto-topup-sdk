@@ -3,10 +3,10 @@
   "version": "0.2.0",
   "description": "Retailcode SDK — React Native components",
   "license": "MIT",
-  "homepage": "https://github.com/Eyiowuawi/retailcode-sdk",
+  "homepage": "https://github.com/FBIS-Tech/auto-topup-sdk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Eyiowuawi/retailcode-sdk.git",
+    "url": "https://github.com/FBIS-Tech/auto-topup-sdk.git",
     "directory": "packages/react-native"
   },
   "publishConfig": {
