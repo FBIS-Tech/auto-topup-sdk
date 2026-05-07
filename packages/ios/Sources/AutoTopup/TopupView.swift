@@ -9,7 +9,6 @@ import WebKit
 ///     TopupView(
 ///         publicKey: "pk_live_xxxx",
 ///         msisdn: "08012345678",
-///         baseUrl: "https://corporateprodapi.retailcode.com.ng",
 ///         onClose: { showTopup = false }
 ///     )
 /// }
@@ -21,7 +20,6 @@ import WebKit
 ///     TopupView(
 ///         publicKey: "pk_live_xxxx",
 ///         msisdn: "08012345678",
-///         baseUrl: "https://corporateprodapi.retailcode.com.ng",
 ///         onClose: { dismiss() }
 ///     )
 ///     .ignoresSafeArea()

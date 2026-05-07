@@ -98,7 +98,6 @@
     RetailcodeSDK.RetailcodeTopup.create({
       publicKey: document.getElementById('pubkey').value.trim() || 'pk_test_key',
       msisdn,
-      baseUrl: window.location.origin,   // proxied through localhost:3000 → real API
       container: '#widget',
       theme: { accent },
       onSuccess: (r) => log('✓ onSuccess ' + JSON.stringify(r)),
