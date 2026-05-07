@@ -1,6 +1,6 @@
 {
   "name": "@auto-topup/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Retailcode SDK core — shared API client, types, and utilities",
   "license": "MIT",
   "homepage": "https://github.com/FBIS-Tech/auto-topup-sdk",
