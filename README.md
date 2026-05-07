@@ -60,7 +60,7 @@ No install needed. Once published, jsDelivr serves the IIFE automatically.
 
 ```html
 <!-- pin to a version in production -->
-<script src="https://cdn.jsdelivr.net/npm/@auto-topup/web@0.1.0/dist/retailcode.iife.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@auto-topup/web@0.3.0/dist/retailcode.iife.global.js"></script>
 
 <div id="topup-widget"></div>
 
@@ -357,7 +357,14 @@ The widget uses `WKWebView` with a `WKScriptMessageHandler` named `retailcode` â
 
 ## Theme options
 
-Both `@auto-topup/web` and `@auto-topup/react-native` accept a `theme` prop:
+All platforms support accent colour customisation:
+
+| Platform | Prop |
+|---|---|
+| Web | `theme: { accent: '#hex' }` |
+| React Native | `theme={{ accent: '#hex' }}` |
+| Flutter | `accent: '#hex'` |
+| iOS | `accent: "#hex"` |
 
 | Option | Type | Default | Description |
 |---|---|---|---|
@@ -374,7 +381,7 @@ theme: { accent: '#7C3AED' }  // purple brand colour
 
 ```bash
 git clone https://github.com/FBIS-Tech/auto-topup-sdk.git
-cd retailcode-sdk
+cd auto-topup-sdk
 
 pnpm install
 pnpm build
@@ -383,4 +390,4 @@ pnpm build
 pnpm mock
 ```
 
-The mock server responds to all API endpoints with fake data and serves the web example page at `http://localhost:3000`.
+The mock server proxies all API calls to the real production API and serves the web example page at `http://localhost:3000`.
