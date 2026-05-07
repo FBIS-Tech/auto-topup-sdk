@@ -23,7 +23,6 @@ class TopupWidget extends StatefulWidget {
     super.key,
     required this.publicKey,
     required this.msisdn,
-    this.baseUrl = 'https://corporatedevapi.retailcode.com.ng',
     this.accent = '#0057FF',
     this.onSuccess,
     this.onClose,
@@ -31,7 +30,6 @@ class TopupWidget extends StatefulWidget {
 
   final String publicKey;
   final String msisdn;
-  final String baseUrl;
   final String accent;
   final VoidCallback? onSuccess;
   final VoidCallback? onClose;
@@ -64,7 +62,6 @@ class _TopupWidgetState extends State<TopupWidget> {
         buildWidgetHtml(
           publicKey: widget.publicKey,
           msisdn:    widget.msisdn,
-          baseUrl:   widget.baseUrl,
           accent:    widget.accent,
         ),
       );

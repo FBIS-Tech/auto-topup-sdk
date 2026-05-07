@@ -9,9 +9,7 @@ export interface CreateConfig extends TopupCallbacks {
   publicKey: string;
   msisdn: string;
   container: string;
-  /** Defaults to https://corporatedevapi.retailcode.com.ng — only set this for testing */
-  baseUrl?: string;
-  theme?: { accent?: string; fontFamily?: string };
+theme?: { accent?: string; fontFamily?: string };
 }
 
 export const RetailcodeTopup = {

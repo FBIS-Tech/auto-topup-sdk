@@ -29,8 +29,6 @@ import { Footer } from './components/Footer.js';
 export interface TopupWidgetProps {
   publicKey: string;
   msisdn: string;
-  /** Defaults to https://corporatedevapi.retailcode.com.ng — only set this for testing */
-  baseUrl?: string;
   theme?: { accent?: string };
   /**
    * When true, the widget renders inside a full-screen Modal so it overlays
@@ -46,7 +44,6 @@ export interface TopupWidgetProps {
 export function TopupWidget({
   publicKey,
   msisdn,
-  baseUrl,
   theme,
   modal = false,
   onSuccess,
@@ -56,7 +53,6 @@ export function TopupWidget({
     <TopupWidgetInner
       publicKey={publicKey}
       msisdn={msisdn}
-      baseUrl={baseUrl}
       theme={theme}
       onSuccess={onSuccess}
       onClose={onClose}
@@ -83,15 +79,14 @@ export function TopupWidget({
 function TopupWidgetInner({
   publicKey,
   msisdn,
-  baseUrl,
   theme,
   onSuccess,
   onClose,
 }: Omit<TopupWidgetProps, 'modal'>) {
   const accent = resolveAccent(theme?.accent);
   const client = useMemo(
-    () => new RetailcodeApiClient(publicKey, baseUrl),
-    [publicKey, baseUrl],
+    () => new RetailcodeApiClient(publicKey),
+    [publicKey],
   );
 
   const state = useTopupConfig(client, msisdn);

@@ -5,7 +5,6 @@ import 'sdk_bundle.dart';
 String buildWidgetHtml({
   required String publicKey,
   required String msisdn,
-  required String baseUrl,
   required String accent,
 }) {
   return '''
@@ -41,7 +40,6 @@ String buildWidgetHtml({
     RetailcodeSDK.RetailcodeTopup.create({
       publicKey: ${_jsStr(publicKey)},
       msisdn:    ${_jsStr(msisdn)},
-      baseUrl:   ${_jsStr(baseUrl)},
       container: '#widget',
       theme:     { accent: ${_jsStr(accent)} },
       onSuccess: function() { /* handled by onClose with success:true flag */ },

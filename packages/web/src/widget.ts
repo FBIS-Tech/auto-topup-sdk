@@ -16,7 +16,6 @@ interface WidgetOptions extends TopupCallbacks {
   publicKey: string;
   msisdn: string;
   container: string;
-  baseUrl?: string;
   theme?: { accent?: string; fontFamily?: string };
 }
 
@@ -26,7 +25,7 @@ export class TopupWidget {
 
   constructor(opts: WidgetOptions) {
     this.opts = opts;
-    this.client = new RetailcodeApiClient(opts.publicKey, opts.baseUrl);
+    this.client = new RetailcodeApiClient(opts.publicKey);
   }
 
   async mount(): Promise<void> {

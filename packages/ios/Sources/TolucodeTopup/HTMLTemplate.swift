@@ -5,7 +5,6 @@ import Foundation
 func buildWidgetHTML(
     publicKey: String,
     msisdn: String,
-    baseUrl: String,
     accent: String
 ) -> String {
     // Escape single quotes so values are safe inside JS string literals
@@ -38,7 +37,6 @@ func buildWidgetHTML(
         RetailcodeSDK.RetailcodeTopup.create({
           publicKey: \(js(publicKey)),
           msisdn:    \(js(msisdn)),
-          baseUrl:   \(js(baseUrl)),
           container: '#widget',
           theme:     { accent: \(js(accent)) },
           onSuccess: function() { /* success flag is carried inside the close message */ },

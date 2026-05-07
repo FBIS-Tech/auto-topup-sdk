@@ -15,16 +15,13 @@ export class RetailcodeApiError extends Error {
   }
 }
 
-export const DEFAULT_BASE_URL = 'https://corporatedevapi.retailcode.com.ng';
+export const DEFAULT_BASE_URL = 'https://corporateprodapi.retailcode.com.ng';
 
 export class RetailcodeApiClient {
   private readonly baseUrl: string;
 
-  constructor(
-    private readonly publicKey: string,
-    baseUrl?: string,
-  ) {
-    this.baseUrl = baseUrl ?? DEFAULT_BASE_URL;
+  constructor(private readonly publicKey: string) {
+    this.baseUrl = DEFAULT_BASE_URL;
   }
 
   private get authHeaders(): Record<string, string> {
