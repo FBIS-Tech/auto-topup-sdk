@@ -1,3 +1,3 @@
-library tolucode_topup;
+library auto_topup;
 
 export 'src/topup_widget.dart';

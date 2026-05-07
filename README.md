@@ -7,8 +7,8 @@ Auto Topup subscription widget for web, React Native, Flutter, and iOS.
 | `@auto-topup/core` | Shared | npm |
 | `@auto-topup/web` | Browser / any WebView | npm + CDN |
 | `@auto-topup/react-native` | React Native | npm |
-| `tolucode_topup` | Flutter | git |
-| `TolucodeTopup` | iOS (Swift) | Swift Package Manager |
+| `auto_topup` | Flutter | git |
+| `AutoTopup` | iOS (Swift) | Swift Package Manager |
 
 ---
 
@@ -250,7 +250,7 @@ The web SDK detects `window.ReactNativeWebView` automatically and posts `{ actio
 
 ```yaml
 dependencies:
-  tolucode_topup:
+  auto_topup:
     git:
       url: https://github.com/FBIS-Tech/auto-topup-sdk.git
       path: packages/flutter
@@ -265,7 +265,7 @@ flutter pub get
 **Option 1 — Bottom sheet (recommended):**
 
 ```dart
-import 'package:tolucode_topup/tolucode_topup.dart';
+import 'package:auto_topup/auto_topup.dart';
 
 ElevatedButton(
   onPressed: () => showModalBottomSheet(
@@ -313,12 +313,12 @@ In Xcode → **File → Add Package Dependencies** → paste this URL:
 https://github.com/FBIS-Tech/auto-topup-sdk
 ```
 
-Select the **TolucodeTopup** product and add it to your target.
+Select the **AutoTopup** product and add it to your target.
 
 **Option 1 — Sheet:**
 
 ```swift
-import TolucodeTopup
+import AutoTopup
 
 struct ContentView: View {
     @State private var showTopup = false
