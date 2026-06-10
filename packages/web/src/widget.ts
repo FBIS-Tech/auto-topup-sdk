@@ -92,7 +92,7 @@ export class TopupWidget {
       const result = await swal({
         title: 'Terms & Conditions',
         html: `
-          <div style="text-align:left;font-size:13px;line-height:1.65;color:#374151;max-height:340px;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;padding-right:4px;font-family:${fontFamily};">
+          <div style="text-align:left;font-size:13px;line-height:1.65;color:#374151;font-family:${fontFamily};">
             ${typeof terms === 'string' ? terms.replace(/\n/g, '<br>') : ''}
           </div>`,
         confirmButtonText: 'I Agree & Continue',
@@ -106,7 +106,12 @@ export class TopupWidget {
         didOpen: (popup: HTMLElement) => {
           const container = popup.querySelector<HTMLElement>('.swal2-html-container');
           if (container) {
-            container.style.overflow = 'visible';
+            container.style.maxHeight = '50vh';
+            container.style.overflowY = 'auto';
+            container.style.setProperty('-webkit-overflow-scrolling', 'touch');
+            container.style.touchAction = 'pan-y';
+            container.style.overscrollBehavior = 'contain';
+            container.style.textAlign = 'left';
             container.style.padding = '0 1.6em';
           }
         },
