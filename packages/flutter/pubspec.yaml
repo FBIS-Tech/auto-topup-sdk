@@ -1,6 +1,6 @@
 name: auto_topup
 description: Auto Topup subscription widget for Flutter — airtime and data auto-renewal via Retailcode.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/FBIS-Tech/auto-topup-sdk
 
 environment:

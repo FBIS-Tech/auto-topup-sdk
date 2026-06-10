@@ -1,3 +1,9 @@
+## 0.1.1
+
+* Fix Terms & Conditions not scrolling on Android and iOS WebView.
+* Add `VerticalDragGestureRecognizer` to `WebViewWidget` so Flutter passes vertical drag gestures to the WebView.
+* Add `enableDrag: false` to recommended `showModalBottomSheet` usage.
+
 ## 0.1.0
 
 * Initial release.
