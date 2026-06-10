@@ -30,6 +30,7 @@ ElevatedButton(
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
+    enableDrag: false, // required — the WebView owns vertical drag gestures
     builder: (_) => TopupWidget(
       publicKey: 'pk_live_xxxx',
       msisdn:    '08012345678',

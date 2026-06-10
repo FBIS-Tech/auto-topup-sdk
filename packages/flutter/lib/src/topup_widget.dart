@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'html_template.dart';
@@ -11,6 +12,7 @@ import 'html_template.dart';
 ///   context: context,
 ///   isScrollControlled: true,
 ///   useSafeArea: true,
+///   enableDrag: false, // required — the WebView owns vertical drag gestures
 ///   builder: (_) => TopupWidget(
 ///     publicKey: 'pk_live_xxxx',
 ///     msisdn: '08012345678',
@@ -97,7 +99,11 @@ class _TopupWidgetState extends State<TopupWidget> {
         children: [
           WebViewWidget(
             controller: _controller,
-            // Allow the page to scroll when the keyboard is open
+            gestureRecognizers: {
+              Factory<VerticalDragGestureRecognizer>(
+                () => VerticalDragGestureRecognizer(),
+              ),
+            },
           ),
           if (_loading)
             const Center(child: CircularProgressIndicator()),
