@@ -12,6 +12,62 @@ import { loadSwal, swal } from './dialog.js';
 import { closeWebview, updateUrlStatus } from './webview.js';
 import { buildTokens, buildStyles } from './styles.js';
 
+function showTermsDialog(opts: {
+  html: string;
+  accent: string;
+  fontFamily: string;
+}): Promise<boolean> {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText =
+      'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;' +
+      'align-items:center;justify-content:center;z-index:99999;padding:16px;box-sizing:border-box;';
+
+    const card = document.createElement('div');
+    card.style.cssText =
+      `background:#fff;border-radius:12px;width:100%;max-width:480px;` +
+      `max-height:85vh;display:flex;flex-direction:column;font-family:${opts.fontFamily};overflow:hidden;`;
+
+    const title = document.createElement('div');
+    title.style.cssText =
+      'padding:20px 24px 12px;font-size:18px;font-weight:700;color:#111827;text-align:center;flex-shrink:0;';
+    title.textContent = 'Terms & Conditions';
+
+    const content = document.createElement('div');
+    content.style.cssText =
+      'flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;' +
+      'touch-action:pan-y;overscroll-behavior:contain;' +
+      'padding:0 24px 16px;font-size:13px;line-height:1.65;color:#374151;';
+    content.innerHTML = opts.html;
+
+    const actions = document.createElement('div');
+    actions.style.cssText =
+      'display:flex;gap:12px;padding:16px 24px;flex-shrink:0;border-top:1px solid #F3F4F6;';
+
+    const decline = document.createElement('button');
+    decline.style.cssText =
+      'flex:1;padding:12px;border-radius:8px;border:none;background:#9CA3AF;' +
+      'color:#fff;font-size:14px;font-weight:600;cursor:pointer;';
+    decline.textContent = 'Decline';
+    decline.onclick = () => { document.body.removeChild(overlay); resolve(false); };
+
+    const agree = document.createElement('button');
+    agree.style.cssText =
+      `flex:2;padding:12px;border-radius:8px;border:none;background:${opts.accent};` +
+      'color:#fff;font-size:14px;font-weight:600;cursor:pointer;';
+    agree.textContent = 'I Agree & Continue';
+    agree.onclick = () => { document.body.removeChild(overlay); resolve(true); };
+
+    actions.appendChild(decline);
+    actions.appendChild(agree);
+    card.appendChild(title);
+    card.appendChild(content);
+    card.appendChild(actions);
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+  });
+}
+
 interface WidgetOptions extends TopupCallbacks {
   publicKey: string;
   msisdn: string;
@@ -89,34 +145,12 @@ export class TopupWidget {
 
     // Terms gate for brand-new users
     if (isBrandNew && terms) {
-      const result = await swal({
-        title: 'Terms & Conditions',
-        html: `
-          <div style="text-align:left;font-size:13px;line-height:1.65;color:#374151;font-family:${fontFamily};">
-            ${typeof terms === 'string' ? terms.replace(/\n/g, '<br>') : ''}
-          </div>`,
-        confirmButtonText: 'I Agree & Continue',
-        confirmButtonColor: accent,
-        showCancelButton: true,
-        cancelButtonText: 'Decline',
-        cancelButtonColor: '#9CA3AF',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        reverseButtons: true,
-        didOpen: (popup: HTMLElement) => {
-          const container = popup.querySelector<HTMLElement>('.swal2-html-container');
-          if (container) {
-            container.style.maxHeight = '50vh';
-            container.style.overflowY = 'auto';
-            container.style.setProperty('-webkit-overflow-scrolling', 'touch');
-            container.style.touchAction = 'pan-y';
-            container.style.overscrollBehavior = 'contain';
-            container.style.textAlign = 'left';
-            container.style.padding = '0 1.6em';
-          }
-        },
+      const agreed = await showTermsDialog({
+        html: typeof terms === 'string' ? terms.replace(/\n/g, '<br>') : '',
+        accent,
+        fontFamily,
       });
-      if (!result.isConfirmed) {
+      if (!agreed) {
         closeWebview(onClose);
         return;
       }

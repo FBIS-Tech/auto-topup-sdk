@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms Dialog Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #F3F4F6; min-height: 100vh;
+           display: flex; align-items: center; justify-content: center; }
+    button { padding: 12px 28px; background: #0057FF; color: #fff; border: none;
+             border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    #widget { position: fixed; inset: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+<button onclick="test()">Show Terms Dialog</button>
+<div id="widget"></div>
+
+<script src="/retailcode.iife.global.js"></script>
+<script>
+  // Patch fetch so the config response always returns a brand-new user + terms text
+  const _fetch = window.fetch;
+  window.fetch = function(url, opts) {
+    if (typeof url === 'string' && url.includes('/config/')) {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({
+          success: true,
+          data: {
+            subscribedAirtime: false,
+            subscribedData:    false,
+            airtimeThresholds: { '200': 'id1', '500': 'id2' },
+            dataThresholds:    { '1GB': 'id3' },
+            dataPlans:         [{ productId: 'dp1', allowance: '1GB', price: 500 }],
+            airtimeMin:        100,
+            airtimeMax:        10000,
+            terms: `Auto Top-Up Terms of Service\n\n1. Authorization\n\nBy enabling Auto Top-Up, you authorize your provider to automatically charge your saved payment method whenever your balance falls below the set threshold.\n\n2. Frequency & Limits\n\nTransactions occur automatically until you manually disable the service. You are responsible for monitoring your usage; we are not liable for multiple charges resulting from high data/airtime consumption.\n\n3. Payment Failure\n\nIf a charge is declined, the top-up will not be provisioned. We are not responsible for service interruptions or disconnected calls due to failed transactions or insufficient bank funds.\n\n4. Pricing\n\nTop-ups are billed at current market rates. If plan prices change, your pre-set debit amount will remain the same, but the volume of data or airtime received may adjust accordingly.\n\n5. Cancellations & Refunds\n\nOpt-out: You can disable this feature at any time in settings. Refunds: All automated purchases are final and non-refundable once the credit is delivered to your account.`,
+          }
+        })
+      });
+    }
+    return _fetch(url, opts);
+  };
+
+  function test() {
+    document.getElementById('widget').style.pointerEvents = 'auto';
+    RetailcodeSDK.RetailcodeTopup.create({
+      publicKey: 'pk_test_key',
+      msisdn:    '08035107065',
+      container: '#widget',
+      theme:     { accent: '#0057FF' },
+      onSuccess: () => { document.getElementById('widget').style.pointerEvents = 'none'; },
+      onClose:   () => { document.getElementById('widget').style.pointerEvents = 'none'; },
+    }).mount();
+  }
+</script>
+</body>
+</html>
