@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'html_template.dart';
@@ -98,11 +97,6 @@ class _TopupWidgetState extends State<TopupWidget> {
         children: [
           WebViewWidget(
             controller: _controller,
-            gestureRecognizers: {
-              Factory<VerticalDragGestureRecognizer>(
-                () => VerticalDragGestureRecognizer(),
-              ),
-            },
           ),
           if (_loading)
             const Center(child: CircularProgressIndicator()),
