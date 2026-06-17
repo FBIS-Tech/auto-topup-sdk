@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'html_template.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 
 /// Auto Topup subscription widget for Flutter.
 ///
@@ -42,6 +44,12 @@ class _TopupWidgetState extends State<TopupWidget> {
   late final WebViewController _controller;
   bool _loading = true;
 
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+    Factory(() => EagerGestureRecognizer())
+  };
+
+  UniqueKey _key = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -61,8 +69,8 @@ class _TopupWidgetState extends State<TopupWidget> {
       ..loadHtmlString(
         buildWidgetHtml(
           publicKey: widget.publicKey,
-          msisdn:    widget.msisdn,
-          accent:    widget.accent,
+          msisdn: widget.msisdn,
+          accent: widget.accent,
         ),
       );
   }
@@ -96,10 +104,11 @@ class _TopupWidgetState extends State<TopupWidget> {
       child: Stack(
         children: [
           WebViewWidget(
+            key: _key,
             controller: _controller,
+            gestureRecognizers: gestureRecognizers,
           ),
-          if (_loading)
-            const Center(child: CircularProgressIndicator()),
+          if (_loading) const Center(child: CircularProgressIndicator()),
         ],
       ),
     );
