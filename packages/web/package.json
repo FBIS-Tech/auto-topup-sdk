@@ -1,6 +1,6 @@
 {
   "name": "@auto-topup/web",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Retailcode SDK — browser widget (Shadow DOM)",
   "license": "MIT",
   "homepage": "https://github.com/FBIS-Tech/auto-topup-sdk",
