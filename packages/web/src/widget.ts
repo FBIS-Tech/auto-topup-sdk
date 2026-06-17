@@ -26,7 +26,7 @@ function showTermsDialog(opts: {
     const card = document.createElement('div');
     card.style.cssText =
       `background:#fff;border-radius:12px;width:100%;max-width:480px;` +
-      `max-height:85vh;display:flex;flex-direction:column;font-family:${opts.fontFamily};overflow:hidden;`;
+      `max-height:85vh;display:flex;flex-direction:column;font-family:${opts.fontFamily};`;
 
     const title = document.createElement('div');
     title.style.cssText =
@@ -44,19 +44,25 @@ function showTermsDialog(opts: {
     actions.style.cssText =
       'display:flex;gap:12px;padding:16px 24px;flex-shrink:0;border-top:1px solid #F3F4F6;';
 
+    const dismiss = (agreed: boolean) => {
+      document.body.style.overflow = '';
+      document.body.removeChild(overlay);
+      resolve(agreed);
+    };
+
     const decline = document.createElement('button');
     decline.style.cssText =
       'flex:1;padding:12px;border-radius:8px;border:none;background:#9CA3AF;' +
       'color:#fff;font-size:14px;font-weight:600;cursor:pointer;';
     decline.textContent = 'Decline';
-    decline.onclick = () => { document.body.removeChild(overlay); resolve(false); };
+    decline.onclick = () => dismiss(false);
 
     const agree = document.createElement('button');
     agree.style.cssText =
       `flex:2;padding:12px;border-radius:8px;border:none;background:${opts.accent};` +
       'color:#fff;font-size:14px;font-weight:600;cursor:pointer;';
     agree.textContent = 'I Agree & Continue';
-    agree.onclick = () => { document.body.removeChild(overlay); resolve(true); };
+    agree.onclick = () => dismiss(true);
 
     actions.appendChild(decline);
     actions.appendChild(agree);
@@ -64,6 +70,7 @@ function showTermsDialog(opts: {
     card.appendChild(content);
     card.appendChild(actions);
     overlay.appendChild(card);
+    document.body.style.overflow = 'hidden';
     document.body.appendChild(overlay);
   });
 }
@@ -125,7 +132,6 @@ export class TopupWidget {
     }
 
     shadow.innerHTML = '';
-    await loadSwal();
 
     const {
       name: prefilledName = '',
@@ -143,7 +149,7 @@ export class TopupWidget {
     const isPartialSubscriber = (subscribedAirtime || subscribedData) && !isFullSubscriber;
     const isBrandNew = !subscribedAirtime && !subscribedData;
 
-    // Terms gate for brand-new users
+    // Terms gate for brand-new users — shown before loading SweetAlert2 CDN
     if (isBrandNew && terms) {
       const agreed = await showTermsDialog({
         html: typeof terms === 'string' ? terms.replace(/\n/g, '<br>') : '',
@@ -155,6 +161,9 @@ export class TopupWidget {
         return;
       }
     }
+
+    // Load SweetAlert2 for form validation/success toasts
+    await loadSwal();
 
     // Build option HTML strings
     const airtimeOptions = Object.entries(airtimethresholds)
