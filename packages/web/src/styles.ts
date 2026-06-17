@@ -29,6 +29,7 @@ export function buildStyles(t: StyleTokens): string {
       min-height: 100vh;
       font-family: ${t.fontFamily};
       background: #FFFFFF;
+      -webkit-overflow-scrolling: touch;
     }
     @media (min-width: 560px) {
       :host { background: rgba(0,0,0,.50); align-items: center; padding: 20px; }
@@ -38,11 +39,14 @@ export function buildStyles(t: StyleTokens): string {
       width: 100%; max-width: 440px; background: #FFFFFF; overflow: hidden;
       animation: modalSlide .35s cubic-bezier(.22,1,.36,1) both;
       border-radius: 0; box-shadow: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     @media (min-width: 560px) {
       .rc-modal {
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.12), 0 32px 64px rgba(0,0,0,.08);
+        overflow-y: auto;
       }
     }
     @keyframes modalSlide { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }

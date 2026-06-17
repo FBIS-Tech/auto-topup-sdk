@@ -356,7 +356,7 @@ export class TopupWidget {
     const el = document.createElement('div');
     el.innerHTML = `
       <style>
-        :host { display:flex; align-items:center; justify-content:center; min-height:100vh; background:#fff; }
+        :host { display:flex; align-items:center; justify-content:center; min-height:100vh; background:#fff; -webkit-overflow-scrolling: touch; }
         @media (min-width:560px) { :host { background:rgba(0,0,0,.50); } }
         ${buildStyles(tokens).match(/\.rc-spinner-ring[\s\S]*?@keyframes rc-spin[\s\S]*?}/)?.[0] ?? ''}
       </style>
